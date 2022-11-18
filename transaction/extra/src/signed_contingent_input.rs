@@ -3,6 +3,7 @@
 //! A signed contingent input as described in MCIP #31
 
 use alloc::vec::Vec;
+
 use displaydoc::Display;
 use mc_crypto_ring_signature::{
     Commitment, CompressedCommitment, CurveScalar, Error as RingSignatureError, KeyImage, RingMLSAG,
