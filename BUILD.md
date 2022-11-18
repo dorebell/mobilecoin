@@ -1,6 +1,7 @@
 Build
 =====
 
+
 ## Build environment
 
 Services that create SGX enclaves depend on the Intel SGX SDK. This must be installed
