@@ -44,7 +44,6 @@ impl ingest_common::IngestSummary {
 // Implement the EnclaveGrpcChannel trait on attested service types.
 // If we don't do this in this crate, then newtype wrappers must be used,
 // because of orphan rules
-
 use mc_fog_enclave_connection::EnclaveGrpcChannel;
 
 impl EnclaveGrpcChannel for view_grpc::FogViewApiClient {
