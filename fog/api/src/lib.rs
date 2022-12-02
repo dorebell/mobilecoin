@@ -47,6 +47,7 @@ impl ingest_common::IngestSummary {
 use mc_fog_enclave_connection::EnclaveGrpcChannel;
 
 impl EnclaveGrpcChannel for view_grpc::FogViewApiClient {
+    
     fn auth(
         &mut self,
         msg: &attest::AuthMessage,
