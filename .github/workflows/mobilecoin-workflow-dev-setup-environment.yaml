@@ -228,6 +228,7 @@ jobs:
         chart_set: |
           --set=global.node.nodeConfig.blockVersion=${{ inputs.block_version }}
           --set=fogIngestConfig.fogRecoveryDatabase.password=${{ secrets.DEV_POSTGRESQL_FOG_RECOVERY_PASSWORD }}
+          --set=global.blacklist.enabled=true
         release_name: mc-core-dev-env-setup
         namespace: ${{ inputs.namespace }}
         rancher_cluster: ${{ secrets.DEV_RANCHER_CLUSTER }}
