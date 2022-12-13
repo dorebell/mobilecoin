@@ -1,0 +1,10 @@
+# Copyright (c) 2018-2022 The MobileCoin Foundation
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "consensusNodeConfig.fullname" . }}-ingress-blacklist
+  labels:
+    {{- include "consensusNodeConfig.labels" . | nindent 4 }}
+data:
+  BLACKLIST_ENABLED: {{ .Values.global.blacklist.enabled | squote }}
+  BLACKLIST_PATTERN: {{ .Values.global.blacklist.pattern | squote }}

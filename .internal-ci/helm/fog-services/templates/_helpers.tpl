@@ -150,3 +150,19 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 {{- $salt }}
 {{- end }}
+
+{{- define "fogServices.blacklist.enabled" -}}
+  {{- if eq .Values.fogServicesConfig.enabled false }}
+    {{- (lookup "v1" "ConfigMap" .Release.Namespace "fog-ingress-blacklist").data.BLACKLIST_ENABLED | default "false" }}
+  {{- else }}
+    {{- tpl .Values.global.blacklist.enabled . }}
+  {{- end }}
+{{- end }}
+
+{{- define "fogServices.blacklist.pattern" -}}
+  {{- if eq .Values.fogServicesConfig.enabled false }}
+    {{- (lookup "v1" "ConfigMap" .Release.Namespace "fog-ingress-blacklist").data.BLACKLIST_PATTERN | default "" }}
+  {{- else }}
+    {{- tpl .Values.global.blacklist.pattern . }}
+  {{- end }}
+{{- end }}
