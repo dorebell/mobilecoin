@@ -97,8 +97,8 @@ jobs:
       V2_DST_FOG_KEYS_DIR: /tmp/2-testing/fog_keys
       V3_DST_KEYS_DIR: /tmp/3-testing/keys
       V3_DST_FOG_KEYS_DIR: /tmp/3-testing/fog_keys
-      START_KEYS: '249'
-      END_KEYS: '499'
+      START_KEYS: '125'
+      END_KEYS: '250'
     steps:
     - name: Checkout
       uses: actions/checkout@v3

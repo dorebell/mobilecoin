@@ -8,7 +8,6 @@ use crate::{
     input_materials::InputMaterials, InputCredentials, MemoBuilder, ReservedSubaddresses,
     TxBuilderError,
 };
-
 use alloc::{boxed::Box, vec::Vec};
 use core::{
     cmp::{min, Ordering},
