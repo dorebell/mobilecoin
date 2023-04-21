@@ -47,11 +47,11 @@ mcCoreCommonConfig:
   mobilecoind:
     threshold: '2'
     nodes:
-    - client: '{{ printf "node1-%s.%s:443" .Release.Namespace }}'
+    - client: '{{ printf "node1-%s.%s:443" .Release.Namespace .Values.global.domain }}'
       txSourceUrl: '{{ with .Values.global.node.ledgerDistribution }}{{ printf "https://s3-%s.amazonaws.com/%s/%s/" .awsRegion .s3Bucket (printf "node1-%s.%s" $.Release.Namespace $.Values.global.domain) }}{{ end }}'
-    - client: '{{ printf "node2-%s.%s:443" .Release.Namespace }}'
+    - client: '{{ printf "node2-%s.%s:443" .Release.Namespace .Values.global.domain }}'
       txSourceUrl: '{{ with .Values.global.node.ledgerDistribution }}{{ printf "https://s3-%s.amazonaws.com/%s/%s/" .awsRegion .s3Bucket (printf "node2-%s.%s" $.Release.Namespace $.Values.global.domain) }}{{ end }}'
-    - client: '{{ printf "node3-%s.%s:443" .Release.Namespace }}'
+    - client: '{{ printf "node3-%s.%s:443" .Release.Namespace .Values.global.domain }}'
       txSourceUrl: '{{ with .Values.global.node.ledgerDistribution }}{{ printf "https://s3-%s.amazonaws.com/%s/%s/" .awsRegion .s3Bucket (printf "node3-%s.%s" $.Release.Namespace $.Values.global.domain) }}{{ end }}'
 
 consensusNodeConfig1:
