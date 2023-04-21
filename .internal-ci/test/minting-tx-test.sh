@@ -5,6 +5,7 @@
 #
 
 set -e
+set -o pipefail
 
 usage()
 {
@@ -16,7 +17,7 @@ usage()
 is_set()
 {
     var_name="${1}"
-    if [ -z "${!var_name}" ]
+    if [[ -z "${!var_name}" ]]
     then
         echo "${var_name} is not set."
         usage
@@ -37,6 +38,10 @@ do
             ;;
         --token-id )
             token_id="${2}"
+            shift 2
+            ;;
+        --domain )
+            domain="${2}"
             shift 2
             ;;
         *)
@@ -62,15 +67,17 @@ then
     exit 1
 fi
 
+recipient=$(cat "${k}")
+
 # For each b58pub in key dir run a mint-tx
 for k in ${keys}
 do
     echo "-- sending mint tx for account key ${k}"
 
     mc-consensus-mint-client generate-and-submit-mint-tx \
-        --node "mc://node1.${NAMESPACE}.development.mobilecoin.com/" \
+        --node "mc://node1-${NAMESPACE}.${domain}/" \
         --signing-key "${token_signer_key}" \
-        --recipient "$(cat "${k}")" \
+        --recipient "${recipient}" \
         --token-id "${token_id}" \
         --amount 1000000
 

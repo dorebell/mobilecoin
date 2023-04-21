@@ -49,7 +49,11 @@ on:
         type: string
         required: true
         default: docker.io/mobilecoin
-
+      domain:
+        description: "Base domain name"
+        type: string
+        default: "dev.mc.dance"
+        required: true
 
 jobs:
   list-values:
@@ -77,6 +81,7 @@ jobs:
       chart_repo: ${{ inputs.chart_repo }}
       namespace: ${{ inputs.namespace }}
       version: ${{ inputs.bootstrap_version }}
+      domain: ${{ inputs.domain }}
     secrets: inherit
 
   bootstrap-v3-0-0-bv2:
@@ -89,6 +94,7 @@ jobs:
       chart_repo: ${{ inputs.chart_repo }}
       namespace: ${{ inputs.namespace }}
       version: ${{ inputs.bootstrap_version }}
+      domain: ${{ inputs.domain }}
     secrets: inherit
 
   deploy:
@@ -104,4 +110,5 @@ jobs:
       ingest_color: ${{ inputs.ingest_color }}
       namespace: ${{ inputs.namespace }}
       version: ${{ inputs.version }}
+      domain: ${{ inputs.domain }}
     secrets: inherit

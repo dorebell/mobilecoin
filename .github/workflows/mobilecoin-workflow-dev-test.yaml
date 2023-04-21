@@ -76,6 +76,10 @@ on:
         type: boolean
         required: false
         default: false
+      domain:
+        description: "Base domain name"
+        type: string
+        default: "dev.mc.dance"
     secrets:
       DEV_RANCHER_CLUSTER:
         description: "Rancher cluster name"
@@ -127,7 +131,7 @@ jobs:
         rancher_token: ${{ secrets.DEV_RANCHER_TOKEN }}
         command: |
           INITIALIZE_LEDGER="true" \
-          FOG_REPORT_URL="fog://fog.${{ inputs.namespace }}.development.mobilecoin.com:443" \
+          FOG_REPORT_URL="fog://fog-${{ inputs.namespace }}.${{ inputs.domain }}:443" \
           /util/generate_origin_data.sh
 
     - name: Test - fog-distribution
@@ -141,7 +145,7 @@ jobs:
         rancher_url: ${{ secrets.DEV_RANCHER_URL }}
         rancher_token: ${{ secrets.DEV_RANCHER_TOKEN }}
         command: |
-          /test/fog-distribution-test.sh
+          /test/fog-distribution-test.sh --domain ${{ inputs.domain }}
 
     - name: Test - block-v0 - fog-test-client
       if: inputs.testing_block_v0
@@ -156,15 +160,15 @@ jobs:
         command: |
           test_client \
             --key-dir /tmp/sample_data/fog_keys \
-            --consensus mc://node1.${{ inputs.namespace }}.development.mobilecoin.com/ \
-            --consensus mc://node2.${{ inputs.namespace }}.development.mobilecoin.com/ \
-            --consensus mc://node3.${{ inputs.namespace }}.development.mobilecoin.com/ \
+            --consensus mc://node1-${{ inputs.namespace }}.${{ inputs.domain }}/ \
+            --consensus mc://node2-${{ inputs.namespace }}.${{ inputs.domain }}/ \
+            --consensus mc://node3-${{ inputs.namespace }}.${{ inputs.domain }}/ \
             --num-clients 6 \
             --num-transactions 32 \
             --consensus-wait 300 \
             --transfer-amount 20 \
-            --fog-view fog-view://fog.${{ inputs.namespace }}.development.mobilecoin.com:443 \
-            --fog-ledger fog-ledger://fog.${{ inputs.namespace }}.development.mobilecoin.com:443
+            --fog-view fog-view://fog-${{ inputs.namespace }}.${{ inputs.domain }}:443 \
+            --fog-ledger fog-ledger://fog-${{ inputs.namespace }}.${{ inputs.domain }}:443
 
     - name: Test - block-v0 - mobilecoind-grpc (previously Wallet Integration)
       if: inputs.testing_block_v0
@@ -230,7 +234,8 @@ jobs:
           fi
           /test/minting-config-tx-test.sh \
             $JSON_FLAG \
-            --token-id 8192
+            --token-id 8192 \
+            --domain ${{ inputs.domain }}
 
     - name: Test - block-v2 - Minting tx
       if: inputs.testing_block_v2
@@ -245,7 +250,8 @@ jobs:
         command: |
           /test/minting-tx-test.sh \
             --key-dir ${{ env.V2_DST_KEYS_DIR }} \
-            --token-id 8192
+            --token-id 8192 \
+            --domain ${{ inputs.domain }}
 
     - name: Test - block-v2 - mobilecoind-json integration
       if: inputs.testing_block_v2
@@ -291,7 +297,8 @@ jobs:
         command: |
           /test/fog-test-client.sh \
             --key-dir ${{ env.V2_DST_FOG_KEYS_DIR }} \
-            --token-id 0
+            --token-id 0 \
+            --domain ${{ inputs.domain }}
 
     - name: Test - block-v2 - fog-test-client token id 1
       if: inputs.testing_block_v2
@@ -306,7 +313,8 @@ jobs:
         command: |
           /test/fog-test-client.sh \
             --key-dir ${{ env.V2_DST_FOG_KEYS_DIR }} \
-            --token-id 8192
+            --token-id 8192 \
+            --domain ${{ inputs.domain }}
 
     - name: Setup - block-v3 - Copy subset of non-fog keys
       if: inputs.testing_block_v3
@@ -359,7 +367,8 @@ jobs:
           fi
           /test/minting-config-tx-test.sh \
             $JSON_FLAG \
-            --token-id 8192
+            --token-id 8192 \
+            --domain ${{ inputs.domain }}
 
     - name: Test - block-v3 - Minting tx
       if: inputs.testing_block_v3
@@ -374,7 +383,8 @@ jobs:
         command: |
           /test/minting-tx-test.sh \
             --key-dir ${{ env.V3_DST_KEYS_DIR }} \
-            --token-id 8192
+            --token-id 8192 \
+            --domain ${{ inputs.domain }}
 
     - name: Test - block-v3 - mobilecoind-json integration
       if: inputs.testing_block_v3
@@ -420,4 +430,5 @@ jobs:
         command: |
           /test/fog-test-client.sh \
             --key-dir ${{ env.V3_DST_FOG_KEYS_DIR }} \
-            --token-ids 0,8192
+            --token-ids 0,8192 \
+            --domain ${{ inputs.domain }}

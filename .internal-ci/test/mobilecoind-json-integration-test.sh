@@ -14,7 +14,7 @@ usage()
 is_set()
 {
     var_name="${1}"
-    if [ -z "${!var_name}" ]
+    if [[ -z "${!var_name}" ]]
     then
         echo "${var_name} is not set."
         usage

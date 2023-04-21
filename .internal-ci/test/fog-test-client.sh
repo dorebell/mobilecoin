@@ -35,6 +35,10 @@ do
             key_dir="${2}"
             shift 2
             ;;
+        --domain )
+            domain="${2}"
+            shift 2
+            ;;
         --token-id )
             token_ids="${2}"
             shift 2
@@ -55,7 +59,7 @@ is_set key_dir
 is_set token_ids
 is_set NAMESPACE
 
-if [ -n "${CLIENT_AUTH_TOKEN_SECRET}" ]
+if [[ -n "${CLIENT_AUTH_TOKEN_SECRET}" ]]
 then
     echo "Generating Client Auth Creds"
     pw=$(mc-util-grpc-token-generator --shared-secret "${CLIENT_AUTH_TOKEN_SECRET}" --username user1 | grep Password: | awk '{print $2}')
@@ -77,13 +81,13 @@ fi
 export RUST_LOG=info
 test_client \
     --key-dir "${key_dir}" \
-    --consensus "mc://node1.${NAMESPACE}.development.mobilecoin.com/" \
-    --consensus "mc://node2.${NAMESPACE}.development.mobilecoin.com/" \
-    --consensus "mc://node3.${NAMESPACE}.development.mobilecoin.com/" \
+    --consensus "mc://node1-${NAMESPACE}.${domain}/" \
+    --consensus "mc://node2-${NAMESPACE}.${domain}/" \
+    --consensus "mc://node3-${NAMESPACE}.${domain}/" \
     ${token_opt} \
     --num-clients 6 \
     --num-transactions 32 \
     --consensus-wait 300 \
     --transfer-amount 20 \
-    --fog-view "fog-view://${user}fog.${NAMESPACE}.development.mobilecoin.com:443" \
-    --fog-ledger "fog-ledger://${user}fog.${NAMESPACE}.development.mobilecoin.com:443"
+    --fog-view "fog-view://${user}fog-${NAMESPACE}.${domain}:443" \
+    --fog-ledger "fog-ledger://${user}fog-${NAMESPACE}.${domain}:443"

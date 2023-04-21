@@ -24,6 +24,10 @@ on:
         description: "Chart Version"
         type: string
         required: true
+      domain:
+        description: "Base domain name"
+        type: string
+        default: "dev.mc.dance"
     secrets:
       DEV_FOG_REPORT_SIGNING_CA_CERT:
         description: "Fog Report signing CA cert"
@@ -162,7 +166,7 @@ jobs:
         echo -n "${{ secrets.DEV_KEYS_SEED_MNEMONIC_FOG }}" > "${SEEDS_BASE_PATH}/MNEMONIC_FOG_KEYS_SEED"
         echo -n "${{ secrets.DEV_FOG_REPORT_SIGNING_CA_CERT }}" > "${SEEDS_BASE_PATH}/FOG_REPORT_SIGNING_CA_CERT"
         echo -n "/wallet-seeds/FOG_REPORT_SIGNING_CA_CERT" > "${SEEDS_BASE_PATH}/FOG_REPORT_SIGNING_CA_CERT_PATH"
-        echo -n "fog://fog.${{ inputs.namespace }}.development.mobilecoin.com:443" > "${SEEDS_BASE_PATH}/FOG_REPORT_URL"
+        echo -n "fog://fog-${{ inputs.namespace }}.${{ inputs.domain }}:443" > "${SEEDS_BASE_PATH}/FOG_REPORT_URL"
 
     - name: Create wallet key secrets
       uses: mobilecoinofficial/gha-k8s-toolbox@v1
