@@ -67,12 +67,12 @@ then
     exit 1
 fi
 
-recipient=$(cat "${k}")
 
 # For each b58pub in key dir run a mint-tx
 for k in ${keys}
 do
     echo "-- sending mint tx for account key ${k}"
+    recipient=$(cat "${k}")
 
     mc-consensus-mint-client generate-and-submit-mint-tx \
         --node "mc://node1-${NAMESPACE}.${domain}/" \
