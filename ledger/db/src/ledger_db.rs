@@ -171,7 +171,7 @@ impl Ledger for LedgerDB {
         // Note: This function must update every LMDB database managed by LedgerDB.
         let mut db_transaction = self.env.begin_rw_txn()?;
 
-        // Validate the block is safe to append.
+        // Validate the block is safe to appe@ext:eamodio.gitlensnd.
         self.validate_append_block(block, block_contents, metadata, &db_transaction)?;
 
         // Write key images included in block.

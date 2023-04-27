@@ -808,18 +808,18 @@ pub fn identify_safe_blocks<L: Ledger>(
     // They are not yet in the ledger, but may not be used again.
     let mut additional_key_images: HashSet<KeyImage> = HashSet::default();
 
-    'block_loop: for block_data in blocks {
-        let block = block_data.block();
-        // The block must be part of a chain of safe blocks.
-        if block.parent_id != last_safe_block.id {
-            log::error!(
-                logger,
-                "The block's parent_id must be the last safe block in the chain.\nblock: {:?}, expected parent_id: {:?}",
-                block,
-                last_safe_block.id
-            );
-            break;
-        }
+    // 'block_loop: for block_data in blocks {
+    //     let block = block_data.block();
+    //     // The block must be part of a chain of safe blocks.
+    //     if block.parent_id != last_safe_block.id {
+    //         log::error!(
+    //             logger,
+    //             "The block's parent_id must be the last safe block in the chain.\nblock: {:?}, expected parent_id: {:?}",
+    //             block,
+    //             last_safe_block.id
+    //         );
+    //         break;
+    //     }
 
         // The block's ID must agree with the merkle hash of its transactions.
         let block_contents = block_data.contents();
@@ -841,31 +841,31 @@ pub fn identify_safe_blocks<L: Ledger>(
             break;
         }
 
-        // No key images in the block may have been previously seen.
-        for key_image in &block_contents.key_images {
-            // Check if the key image is already in the local ledger.
-            match ledger.contains_key_image(key_image) {
-                Ok(contains_key_image) => {
-                    if contains_key_image {
-                        log::error!(
-                            logger,
-                            "Previously used KeyImage {:?} in block {:?}",
-                            key_image,
-                            block
-                        );
-                        break 'block_loop;
-                    }
-                }
-                Err(e) => {
-                    log::error!(
-                        logger,
-                        "contains_key_image failed on {:?}: {:?}",
-                        key_image,
-                        e
-                    );
-                    break 'block_loop;
-                }
-            }
+        // // No key images in the block may have been previously seen.
+        // for key_image in &block_contents.key_images {
+        //     // Check if the key image is already in the local ledger.
+        //     match ledger.contains_key_image(key_image) {
+        //         Ok(contains_key_image) => {
+        //             if contains_key_image {
+        //                 log::error!(
+        //                     logger,
+        //                     "Previously used KeyImage {:?} in block {:?}",
+        //                     key_image,
+        //                     block
+        //                 );
+        //                 break 'block_loop;
+        //             }
+        //         }
+        //         Err(e) => {
+        //             log::error!(
+        //                 logger,
+        //                 "contains_key_image failed on {:?}: {:?}",
+        //                 key_image,
+        //                 e
+        //             );
+        //             break 'block_loop;
+        //         }
+        //     }
 
             // Check if the key image was used by another potentially safe block.
             if additional_key_images.contains(key_image) {

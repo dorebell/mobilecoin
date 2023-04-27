@@ -1,0 +1,2 @@
+[dependencies]
+mc-watcher = { path = "../watcher" }
