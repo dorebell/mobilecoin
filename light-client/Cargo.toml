@@ -1,2 +1,3 @@
-[dependencies]
-mc-watcher = { path = "../watcher" }
+[workspace]
+
+members = ["relayer", "verifier"]

@@ -6,4 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-mc-watcher = { path = "../mc-watcher" }
+mc-api = { path = "../../api" }
+mc-blockchain-types = { path = "../../blockchain/types" }
+mc-common = { path = "../../common" }
+mc-ledger-sync = { path = "../../ledger/sync" }
+mc-watcher = { path = "../../watcher" }

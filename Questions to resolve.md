@@ -62,3 +62,5 @@ it is also checked on conversion: https://github.com/mobilecoinfoundation/mobile
 The metadatavalidator: https://github.com/mobilecoinfoundation/mobilecoin/pull/2131
 
 Archive block verifies the metadata node signing key as well:https://github.com/mobilecoinfoundation/mobilecoin/blob/2c26aec103e8b76b86268412d17efc6ff4fe714e/api/src/convert/archive_block.rs#L56
+
+ReqwestTransactionsFetcher's methods get_origin_block_and_transactions, get_block_by_index, etc. try to pull the block from one specific url (the most recently used): https://github.com/mobilecoinfoundation/mobilecoin/blob/e57b6902aee60be45b78b496c1bef781746e4389/ledger/sync/src/reqwest_transactions_fetcher.rs#L266
